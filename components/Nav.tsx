@@ -3,10 +3,10 @@ import { profile } from "@/lib/data";
 
 const links = [
   { label: "Home", href: "#top" },
-  { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
+  { label: "Tools", href: "#tools" },
   { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
+  { label: "Projects", href: "#products" },
   { label: "Contact", href: "#contact" },
 ];
 
