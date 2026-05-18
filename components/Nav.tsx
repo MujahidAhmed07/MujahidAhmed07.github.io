@@ -1,20 +1,23 @@
 "use client";
 import { profile } from "@/lib/data";
+import { Download } from "lucide-react";
 
 const links = [
   { label: "Home", href: "#top" },
-  { label: "Skills", href: "#skills" },
-  { label: "Tools", href: "#tools" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#products" },
+  { label: "Education", href: "#education" },
+  { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
 ];
 
 export default function Nav() {
+  const downloadLink = profile.links.find((l) => l.label === "Resume")?.href || "#";
+
   return (
     <div className="nav glass" aria-label="Primary">
-      <a href="#top" style={{ fontWeight: 700, padding: "8px 10px" }}>
-        {profile.name.split(" ")[0]}<span style={{ opacity: 0.7 }}>•3D</span>
+      <a href="#top" style={{ fontWeight: 800, padding: "8px 10px", fontSize: "16px", color: "var(--text)" }}>
+        {profile.name}
       </a>
       <div className="links">
         {links.map((l) => (
@@ -22,9 +25,14 @@ export default function Nav() {
             {l.label}
           </a>
         ))}
-        <a className="btn" href={profile.links[0].href} target="_blank" rel="noreferrer">
-          GitHub
-        </a>
+        <button
+          className="btn primary sm"
+          onClick={() => window.print()}
+          style={{ marginLeft: "8px", display: "inline-flex", alignItems: "center", gap: "6px", cursor: "pointer", border: "none" }}
+        >
+          <Download size={14} />
+          Download PDF
+        </button>
       </div>
     </div>
   );

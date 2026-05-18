@@ -12,6 +12,9 @@ export const metadata: Metadata = {
     title: "Mujahid Ahmed — Plugin Architect & Full Stack Engineer",
     description: "Portfolio of Mujahid Ahmed, a software engineer specializing in WordPress, LMS, and full-stack development.",
   },
+  icons: {
+    icon: "/hero-profile-v2.jpg",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
