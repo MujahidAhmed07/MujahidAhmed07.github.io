@@ -151,12 +151,12 @@ export const allProjects: Project[] = [
     subtitle: "B2B Ecommerce Marketplace Plugin",
     description: "Enterprise B2B wholesale pricing, custom user role management, and bulk order workflows for WooCommerce.com.",
     category: "wordpress",
-    tags: ["WooCommerce.com", "B2B", "5,000+ Stores"],
+    tags: ["WooCommerce.com", "B2B", "4,000+ Stores"],
     demo: "https://woocommerce.com/products/wholesale-for-woocommerce/",
     image: "/wholesale.png",
     highlights: [
       "Cut B2B checkout time by 40% with bulk order forms, multi-tiered wholesale pricing rules, and automated tax-exemption roles.",
-      "Scales across 5,000+ active WooCommerce B2B merchant stores globally on the official WooCommerce marketplace.",
+      "Scales across 4,000+ active WooCommerce B2B merchant stores globally on the official WooCommerce marketplace.",
       "Eliminated manual admin overhead by engineering rule-based registration approval and auto-role assignment workflows."
     ],
   },
@@ -165,7 +165,7 @@ export const allProjects: Project[] = [
     subtitle: "Fundraising & Subscription Extension",
     description: "Empower stores to accept recurring donations, goal progress bars, and checkout change round-ups.",
     category: "wordpress",
-    tags: ["WooCommerce.com", "Fundraising", "$1M+ Processed"],
+    tags: ["WooCommerce.com", "Fundraising", "2,000+ Installs"],
     demo: "https://woocommerce.com/products/donation-product-for-woocommerce/",
     image: "/donation.png",
     highlights: [
