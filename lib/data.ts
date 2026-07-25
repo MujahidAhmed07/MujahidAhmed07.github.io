@@ -209,7 +209,7 @@ export const allProjects: Project[] = [
     category: "wordpress",
     tags: ["WooCommerce.com", "Sales", "1,000+ Agents"],
     demo: "https://woocommerce.com/products/sales-agent-for-woocommerce/",
-    image: "https://woocommerce.com/wp-content/uploads/2021/05/Sales-Agent-for-WooCommerce-2.png",
+    image: "/salesagent.png",
     highlights: [
       "Automated commission payouts for 1,000+ sales agents based on custom percentage and flat-rate tier algorithms.",
       "Empowered sales reps with a front-end agent dashboard for tracking assigned clients, orders, and payout logs.",
