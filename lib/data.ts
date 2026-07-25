@@ -195,7 +195,7 @@ export const allProjects: Project[] = [
     category: "wordpress",
     tags: ["WooCommerce.com", "Logistics", "200+ Restaurants"],
     demo: "https://woocommerce.com/products/restaurant-for-woocommerce/",
-    image: "https://woocommerce.com/wp-content/uploads/2020/09/Restaurant-for-WooCommerce-2.png",
+    image: "/restaurant.png",
     highlights: [
       "Accelerated kitchen order dispatch times by 35% using instant AJAX menu category tabs and automated order ticket printing.",
       "Streamlined food delivery scheduling with store opening hour constraints and custom time-slot limits.",
