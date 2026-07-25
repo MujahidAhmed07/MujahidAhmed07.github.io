@@ -620,11 +620,8 @@ export default function Page() {
       {/* FOOTER */}
       <div className="footer">
         <div className="container">
-          <div className="small">
-            © {new Date().getFullYear()} <strong>{profile.name}</strong> • Software Engineer Portfolio.
-          </div>
-          <div className="small" style={{ marginTop: "6px", opacity: 0.8 }}>
-            Built with Next.js + React + Lucide Icons. Fully responsive and optimized.
+          <div className="small" style={{ fontWeight: 600 }}>
+            © {new Date().getFullYear()} {profile.name} • Software Engineer
           </div>
         </div>
       </div>
