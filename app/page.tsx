@@ -24,7 +24,9 @@ import {
   Wrench,
   ShieldCheck,
   Rocket,
-  Layers
+  Layers,
+  ChevronDown,
+  ChevronUp
 } from "lucide-react";
 
 // Standard SVG definitions for GitHub and LinkedIn matching Feather/Lucide aesthetic
@@ -69,6 +71,7 @@ export default function Page() {
   useHashNav();
   const [viewImage, setViewImage] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<CategoryKey>("all");
+  const [expandedCats, setExpandedCats] = useState<Record<string, boolean>>({});
 
   const downloadLink = profile.links.find((l) => l.label === "Resume")?.href || "#";
   const githubLink = profile.links.find((l) => l.label === "GitHub")?.href || "#";
@@ -336,6 +339,9 @@ export default function Page() {
                   if (cat.key === "wordpress-maintenance") IconComponent = Wrench;
                   if (cat.key === "saas") IconComponent = Rocket;
 
+                  const isExpanded = !!expandedCats[cat.key];
+                  const visibleProjects = isExpanded ? catProjects : catProjects.slice(0, 3);
+
                   return (
                     <div key={cat.key} style={{ marginBottom: "44px" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
@@ -349,7 +355,7 @@ export default function Page() {
                       </p>
 
                       <div className="products-grid">
-                        {catProjects.map((p) => (
+                        {visibleProjects.map((p) => (
                           <div className="card" key={p.title} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                             <div>
                               {/* Left Thumbnail + Right Title Layout */}
@@ -457,6 +463,41 @@ export default function Page() {
                           </div>
                         ))}
                       </div>
+
+                      {catProjects.length > 3 && (
+                        <div style={{ textAlign: "center", marginTop: "24px" }}>
+                          <button
+                            className="btn"
+                            onClick={() =>
+                              setExpandedCats((prev) => ({ ...prev, [cat.key]: !prev[cat.key] }))
+                            }
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: "8px",
+                              padding: "10px 24px",
+                              borderRadius: "12px",
+                              fontSize: "14px",
+                              fontWeight: 600,
+                              background: "var(--accent)",
+                              color: "var(--primary-hover)",
+                              border: "1px solid var(--stroke)",
+                              cursor: "pointer",
+                              transition: "all 150ms ease"
+                            }}
+                          >
+                            {isExpanded ? (
+                              <>
+                                <ChevronUp size={16} /> Show Less
+                              </>
+                            ) : (
+                              <>
+                                <ChevronDown size={16} /> Show More ({catProjects.length - 3} More Projects)
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      )}
                     </div>
                   );
                 })}
