@@ -229,7 +229,7 @@ export default function Page() {
                   {idx === 0 ? <Code size={16} /> : idx === 1 ? <Layers size={16} /> : <Wrench size={16} />}
                   {g.group}
                 </h3>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "auto" }}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                   {g.items.map((skill) => (
                     <span className="tag" key={skill} style={{ fontSize: "13px", fontWeight: 500, padding: "5px 12px" }}>
                       {skill}
