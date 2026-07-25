@@ -604,13 +604,16 @@ export default function Page() {
                 <a className="btn" href={linkedinLink} target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
                   <LinkedinIcon size={16} /> LinkedIn
                 </a>
-                <button
+                <a
+                  href="/Mujahid Ahmed Resume.pdf"
+                  download="Mujahid_Ahmed_CV.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn"
-                  onClick={() => window.print()}
-                  style={{ display: "inline-flex", alignItems: "center", gap: "6px", cursor: "pointer", border: "none" }}
+                  style={{ display: "inline-flex", alignItems: "center", gap: "6px", cursor: "pointer", border: "none", textDecoration: "none" }}
                 >
-                  <Download size={16} /> Download Resume
-                </button>
+                  <Download size={16} /> Download CV
+                </a>
               </div>
             </div>
           </div>
