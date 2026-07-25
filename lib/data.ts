@@ -217,34 +217,6 @@ export const allProjects: Project[] = [
     ],
   },
   {
-    title: "Product Variations and Swatches",
-    subtitle: "High-Performance Variation UI",
-    description: "Transform WooCommerce variation dropdowns into interactive color, image, and label swatches.",
-    category: "wordpress",
-    tags: ["WooCommerce.com", "UI/UX", "45% Faster Render"],
-    demo: "https://woocommerce.com/products/bulk-variation-and-swatches/",
-    image: "https://woocommerce.com/wp-content/uploads/2024/10/bulk_variation_and_swatches_marketplace_icon_.webp",
-    highlights: [
-      "Reduced store catalog render latency by 45% on products with 100+ variations via high-speed AJAX lazy loading.",
-      "Improved mobile conversion rates by replacing standard select dropdowns with responsive color and image swatches.",
-      "Decreased order return rates by providing instant out-of-stock cross-outs and dynamic gallery image swapping."
-    ],
-  },
-  {
-    title: "Pay Your Price for WooCommerce",
-    subtitle: "Dynamic Pricing & Tip Engine",
-    description: "Allow customers to set custom pricing with server-side minimum/maximum validation.",
-    category: "wordpress",
-    tags: ["WooCommerce.com", "Pricing", "30% Higher Engagement"],
-    demo: "https://woocommerce.com/products/pay-your-price/",
-    image: "https://woocommerce.com/wp-content/uploads/2024/06/Pay-Your-Price-for-WooCommerce.png",
-    highlights: [
-      "Increased buyer contribution by 30% via customer-defined pricing input fields with server-side min/max validation.",
-      "Expanded catalog versatility across digital downloads, name-your-price charity items, and custom gift card products.",
-      "Prevented price manipulation fraud by enforcing strict backend sanitization and validation."
-    ],
-  },
-  {
     title: "Age Verification & Disclaimer Popup",
     subtitle: "Legal Compliance & Security Gate",
     description: "Restricted product verification gate with date-of-birth checks and legal disclaimer popups.",
