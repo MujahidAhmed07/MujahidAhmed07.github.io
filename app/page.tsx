@@ -356,92 +356,77 @@ export default function Page() {
 
                       <div className="products-grid">
                         {visibleProjects.map((p) => (
-                          <div className="card" key={p.title} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                          <div className="card" key={p.title} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden", padding: "0px" }}>
                             <div>
-                              {/* Left Thumbnail + Right Title Layout */}
-                              <div className="card-header-thumb">
-                                {p.image ? (
-                                  <div
-                                    style={{
-                                      borderRadius: "12px",
-                                      overflow: "hidden",
-                                      width: "90px",
-                                      height: "90px",
-                                      minWidth: "90px",
-                                      background: "#f8fafc",
-                                      border: "1px solid var(--stroke)",
-                                      cursor: "pointer",
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      padding: "0px"
+                              {/* Full-Width Image Banner */}
+                              {p.image ? (
+                                <div
+                                  style={{
+                                    width: "100%",
+                                    height: "170px",
+                                    background: "#f8fafc",
+                                    borderBottom: "1px solid var(--stroke)",
+                                    cursor: "pointer",
+                                    overflow: "hidden",
+                                    position: "relative"
+                                  }}
+                                  onClick={() => setViewImage(p.image!)}
+                                >
+                                  <img
+                                    src={p.image}
+                                    alt={p.title}
+                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }}
+                                    onError={(e) => {
+                                      e.currentTarget.style.display = "none";
+                                      const parent = e.currentTarget.parentElement;
+                                      if (parent) {
+                                        parent.style.display = "none";
+                                      }
                                     }}
-                                    onClick={() => setViewImage(p.image!)}
-                                  >
-                                    <img
-                                      src={p.image}
-                                      alt={p.title}
-                                      style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }}
-                                      onError={(e) => {
-                                        e.currentTarget.style.display = "none";
-                                        const parent = e.currentTarget.parentElement;
-                                        if (parent) {
-                                          parent.style.padding = "0px";
-                                          const fallback = document.createElement("div");
-                                          fallback.style.width = "100%";
-                                          fallback.style.height = "100%";
-                                          fallback.style.display = "flex";
-                                          fallback.style.alignItems = "center";
-                                          fallback.style.justifyContent = "center";
-                                          fallback.style.background = "linear-gradient(135deg, var(--accent), #e0f2fe)";
-                                          fallback.style.color = "var(--primary-hover)";
-                                          fallback.style.fontWeight = "bold";
-                                          fallback.style.fontSize = "24px";
-                                          fallback.innerText = p.title.charAt(0);
-                                          parent.appendChild(fallback);
-                                        }
-                                      }}
-                                    />
+                                  />
+                                  <div style={{ position: "absolute", bottom: "8px", right: "8px", background: "rgba(0,0,0,0.6)", color: "#ffffff", fontSize: "11px", fontWeight: 600, padding: "3px 8px", borderRadius: "6px", backdropFilter: "blur(4px)" }}>
+                                    🔍 Click to expand
                                   </div>
-                                ) : (
-                                  <div
-                                    style={{
-                                      borderRadius: "12px",
-                                      width: "90px",
-                                      height: "90px",
-                                      minWidth: "90px",
-                                      background: "linear-gradient(135deg, var(--accent), #e0f2fe)",
-                                      color: "var(--primary-hover)",
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      fontWeight: "bold",
-                                      fontSize: "24px",
-                                      border: "1px solid var(--stroke)"
-                                    }}
-                                  >
-                                    {p.title.charAt(0)}
-                                  </div>
-                                )}
-                                <div>
-                                  <h3 style={{ fontSize: "16px", margin: 0, fontWeight: 700, color: "var(--text)" }}>{p.title}</h3>
-                                  <p style={{ fontSize: "12px", color: "var(--primary-hover)", fontWeight: 600, margin: "2px 0 0" }}>
-                                    {p.subtitle}
-                                  </p>
+                                </div>
+                              ) : (
+                                <div
+                                  style={{
+                                    width: "100%",
+                                    height: "110px",
+                                    background: "linear-gradient(135deg, var(--accent), #e0f2fe)",
+                                    color: "var(--primary-hover)",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    fontWeight: 800,
+                                    fontSize: "28px",
+                                    borderBottom: "1px solid var(--stroke)"
+                                  }}
+                                >
+                                  {p.title.charAt(0)}
+                                </div>
+                              )}
+
+                              {/* Card Text Content */}
+                              <div style={{ padding: "18px 18px 0" }}>
+                                <h3 style={{ fontSize: "17px", margin: 0, fontWeight: 700, color: "var(--text)" }}>{p.title}</h3>
+                                <p style={{ fontSize: "12px", color: "var(--primary-hover)", fontWeight: 600, margin: "3px 0 10px" }}>
+                                  {p.subtitle}
+                                </p>
+
+                                <p style={{ fontSize: "14px", margin: "0 0 12px", color: "var(--muted)", lineHeight: "1.5" }}>
+                                  {p.description}
+                                </p>
+                                <div className="tags" style={{ marginBottom: "12px" }}>
+                                  {p.tags.map((t) => (
+                                    <span className="tag" key={t}>{t}</span>
+                                  ))}
                                 </div>
                               </div>
-
-                              <p style={{ fontSize: "14px", margin: "8px 0", color: "var(--muted)", lineHeight: "1.5" }}>
-                                {p.description}
-                              </p>
-                              <div className="tags" style={{ marginBottom: "12px" }}>
-                                {p.tags.map((t) => (
-                                  <span className="tag" key={t}>{t}</span>
-                                ))}
-                              </div>
                             </div>
-                            <div>
-                              <div className="hr" />
+
+                            <div style={{ padding: "0 18px 18px" }}>
+                              <div className="hr" style={{ margin: "0 0 14px" }} />
                               <ul style={{ margin: "0 0 14px", paddingLeft: "16px", fontSize: "13px", color: "var(--muted)" }}>
                                 {p.highlights.map((h) => (
                                   <li key={h} style={{ marginBottom: "4px" }}>{h}</li>
