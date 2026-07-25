@@ -492,7 +492,7 @@ export default function Page() {
                               </>
                             ) : (
                               <>
-                                <ChevronDown size={16} /> Show More ({catProjects.length - 3} More Projects)
+                                <ChevronDown size={16} /> Show More
                               </>
                             )}
                           </button>
