@@ -153,7 +153,7 @@ export const allProjects: Project[] = [
     category: "wordpress",
     tags: ["WooCommerce.com", "B2B", "5,000+ Stores"],
     demo: "https://woocommerce.com/products/wholesale-for-woocommerce/",
-    image: "https://woocommerce.com/wp-content/uploads/2019/09/Wholesale-For-WooCommerce-5.png",
+    image: "/wholesale.png",
     highlights: [
       "Cut B2B checkout time by 40% with bulk order forms, multi-tiered wholesale pricing rules, and automated tax-exemption roles.",
       "Scales across 5,000+ active WooCommerce B2B merchant stores globally on the official WooCommerce marketplace.",
@@ -167,7 +167,7 @@ export const allProjects: Project[] = [
     category: "wordpress",
     tags: ["WooCommerce.com", "Fundraising", "$1M+ Processed"],
     demo: "https://woocommerce.com/products/donation-product-for-woocommerce/",
-    image: "https://woocommerce.com/wp-content/uploads/2020/03/Donation-for-WooCommerce-2.png",
+    image: "/donation.png",
     highlights: [
       "Processed over $1M+ in non-profit donations with recurring subscriptions and tax-deductible email receipt dispatches.",
       "Boosted donation conversion by 25% by rendering real-time AJAX campaign progress bars and pre-set amount buttons.",
@@ -181,7 +181,7 @@ export const allProjects: Project[] = [
     category: "wordpress",
     tags: ["WooCommerce.com", "FinTech", "100K+ Conversions/day"],
     demo: "https://woocommerce.com/products/currency-switcher-for-woocommerce/",
-    image: "https://woocommerce.com/wp-content/uploads/2020/08/Currency-Switcher-For-WooCommerce-2.png",
+    image: "/currencyswitcher.png",
     highlights: [
       "Handles 100,000+ daily exchange rate conversions with <50ms latency using automated real-time API rate caching.",
       "Increased international buyer checkout rate by auto-detecting customer location via Geo-IP lookup.",
