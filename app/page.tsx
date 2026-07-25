@@ -2,7 +2,7 @@
 
 import Nav from "@/components/Nav";
 import SectionTitle from "@/components/SectionTitle";
-import { clientProjects, experiences, products, cvProjects, profile, skills, educations, languages, interests } from "@/lib/data";
+import { allProjects, portfolioCategories, CategoryKey, experiences, profile, skills, educations, languages, interests } from "@/lib/data";
 import { useHashNav } from "@/lib/hooks";
 import { useState } from "react";
 import {
@@ -19,7 +19,12 @@ import {
   Languages,
   Heart,
   Globe,
-  ExternalLink
+  ExternalLink,
+  Code,
+  Wrench,
+  ShieldCheck,
+  Rocket,
+  Layers
 } from "lucide-react";
 
 // Standard SVG definitions for GitHub and LinkedIn matching Feather/Lucide aesthetic
@@ -63,6 +68,7 @@ const LinkedinIcon = ({ size = 20, ...props }: { size?: number; [key: string]: a
 export default function Page() {
   useHashNav();
   const [viewImage, setViewImage] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryKey>("all");
 
   const downloadLink = profile.links.find((l) => l.label === "Resume")?.href || "#";
   const githubLink = profile.links.find((l) => l.label === "GitHub")?.href || "#";
@@ -76,39 +82,31 @@ export default function Page() {
       {/* HERO SECTION */}
       <section className="section hero">
         <div className="container">
-          <div className="card glass" style={{ padding: "40px", border: "1px solid var(--stroke)" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: "36px", alignItems: "center" }}>
+          <div className="card glass hero-card">
+            <div className="hero-grid">
               {/* Left Bio Column */}
               <div>
-                <div style={{ display: "flex", alignItems: "center", gap: "28px", marginBottom: "20px", flexWrap: "wrap" }}>
+                <div className="hero-bio-header">
                   <img
                     src="/hero-profile-v2.jpg"
                     alt={profile.name}
-                    style={{
-                      width: "180px",
-                      height: "180px",
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                      border: "5px solid var(--primary)",
-                      boxShadow: "0 12px 28px rgba(14, 165, 233, 0.22)",
-                      flexShrink: 0
-                    }}
+                    className="hero-avatar"
                   />
                   <div>
-                    <h1 style={{ fontSize: "clamp(34px, 4.5vw, 44px)", fontWeight: 800, margin: 0, letterSpacing: "-0.02em" }}>
+                    <h1 style={{ fontWeight: 800, margin: 0, letterSpacing: "-0.02em" }}>
                       {profile.name}
                     </h1>
-                    <span style={{ fontSize: "19px", fontWeight: 600, color: "var(--primary)", marginTop: "6px", display: "inline-block" }}>
+                    <span style={{ fontSize: "18px", fontWeight: 600, color: "var(--primary)", marginTop: "6px", display: "inline-block" }}>
                       {profile.headline}
                     </span>
                   </div>
                 </div>
 
-                <p style={{ fontSize: "16px", lineHeight: "1.6", color: "var(--muted)", margin: "0 0 28px" }}>
+                <p style={{ fontSize: "15px", lineHeight: "1.6", color: "var(--muted)", margin: "0 0 24px" }}>
                   {profile.subhead}
                 </p>
 
-                <div className="cta" style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
+                <div className="cta">
                   <button
                     className="btn primary"
                     onClick={() => window.print()}
@@ -136,8 +134,8 @@ export default function Page() {
               </div>
 
               {/* Right Details Column (Digital Card Dashboard) */}
-              <div style={{ background: "var(--bg)", padding: "26px", borderRadius: "18px", border: "1px solid var(--stroke)" }}>
-                <h3 style={{ fontSize: "15px", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "20px", display: "flex", alignItems: "center", gap: "8px" }}>
+              <div style={{ background: "var(--bg)", padding: "22px", borderRadius: "18px", border: "1px solid var(--stroke)" }}>
+                <h3 style={{ fontSize: "14px", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "18px", display: "flex", alignItems: "center", gap: "8px" }}>
                   <Cpu size={16} color="var(--primary)" /> Profile Info
                 </h3>
                 <div style={{ display: "flex", flexDirection: "column", gap: "16px", fontSize: "14px" }}>
@@ -158,10 +156,10 @@ export default function Page() {
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "36px", height: "36px", borderRadius: "10px", background: "var(--accent)", color: "var(--primary-hover)", flexShrink: 0 }}>
                       <Mail size={18} />
                     </div>
-                    <div>
+                    <div style={{ minWidth: 0, overflow: "hidden" }}>
                       <span style={{ color: "var(--muted)", fontSize: "12px" }}>Email:</span>
                       <div>
-                        <a href={`mailto:${profile.email}`} style={{ fontWeight: 600, color: "var(--primary)" }}>
+                        <a href={`mailto:${profile.email}`} style={{ fontWeight: 600, color: "var(--primary)", wordBreak: "break-all" }}>
                           {profile.email}
                         </a>
                       </div>
@@ -176,8 +174,8 @@ export default function Page() {
                     <div>
                       <span style={{ color: "var(--muted)", fontSize: "12px" }}>Phone:</span>
                       <div>
-                        <a href={`tel:${profile.email}`} style={{ fontWeight: 600, color: "var(--text)" }}>
-                          +92 316 2323279
+                        <a href={profile.phoneHref} style={{ fontWeight: 600, color: "var(--text)" }}>
+                          {profile.phone}
                         </a>
                       </div>
                     </div>
@@ -190,7 +188,7 @@ export default function Page() {
                     </div>
                     <div>
                       <span style={{ color: "var(--muted)", fontSize: "12px" }}>Professional Links:</span>
-                      <div style={{ display: "flex", gap: "10px", marginTop: "4px" }}>
+                      <div style={{ display: "flex", gap: "10px", marginTop: "4px", flexWrap: "wrap" }}>
                         <a href={linkedinLink} target="_blank" rel="noreferrer" style={{ fontWeight: 600, color: "var(--primary)", display: "inline-flex", alignItems: "center", gap: "3px" }}>
                           LinkedIn <ExternalLink size={11} />
                         </a>
@@ -211,11 +209,37 @@ export default function Page() {
 
       {/* MAIN TWO-COLUMN DASHBOARD */}
       <div className="container">
-        <div className="grid-layout">
-          {/* LEFT COLUMN: EXPERIENCE, PROJECTS, EDUCATION */}
-          <div>
-            {/* WORK EXPERIENCE */}
-            <section className="section" id="experience" style={{ paddingTop: 0 }}>
+        {/* TECHNICAL STACK (HORIZONTAL SECTION ABOVE WORK EXPERIENCE) */}
+        <section className="section" id="skills" style={{ paddingTop: "10px", paddingBottom: "30px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
+            <Cpu size={24} color="var(--primary)" />
+            <h2 style={{ margin: 0, fontSize: "24px", fontWeight: 800 }}>Technical Stack & Core Skills</h2>
+          </div>
+          <p style={{ color: "var(--muted)", marginBottom: "20px", fontSize: "15px", maxWidth: "760px" }}>
+            Comprehensive technology stack, plugin architecture frameworks, databases, concepts, and dev tools.
+          </p>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "20px" }}>
+            {skills.map((g, idx) => (
+              <div key={g.group} className="card" style={{ padding: "20px", display: "flex", flexDirection: "column" }}>
+                <h3 style={{ fontSize: "14px", color: "var(--primary-hover)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "14px", fontWeight: 700, display: "flex", alignItems: "center", gap: "8px" }}>
+                  {idx === 0 ? <Code size={16} /> : idx === 1 ? <Layers size={16} /> : <Wrench size={16} />}
+                  {g.group}
+                </h3>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "auto" }}>
+                  {g.items.map((skill) => (
+                    <span className="tag" key={skill} style={{ fontSize: "13px", fontWeight: 500, padding: "5px 12px" }}>
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* WORK EXPERIENCE */}
+        <section className="section" id="experience" style={{ paddingTop: 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "18px" }}>
                 <Briefcase size={24} color="var(--primary)" />
                 <h2 style={{ margin: 0, fontSize: "24px", fontWeight: 800 }}>Work Experience</h2>
@@ -251,263 +275,188 @@ export default function Page() {
               </div>
             </section>
 
-            {/* PROJECTS */}
+            {/* PROJECTS SECTION WITH CATEGORIES */}
             <section className="section" id="products">
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "18px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
                 <Package size={24} color="var(--primary)" />
-                <h2 style={{ margin: 0, fontSize: "24px", fontWeight: 800 }}>Projects & Products Architected</h2>
+                <h2 style={{ margin: 0, fontSize: "24px", fontWeight: 800 }}>Portfolio & Specialized Solutions</h2>
               </div>
-              <p style={{ color: "var(--muted)", marginBottom: "24px", fontSize: "15px", maxWidth: "760px" }}>
-                A select history of commercial SaaS integrations, premium plugin development, and machine learning full-stack platforms.
+              <p style={{ color: "var(--muted)", marginBottom: "20px", fontSize: "15px", maxWidth: "760px" }}>
+                Categorized software projects across WordPress commercial extensions, custom LMS modules, site maintenance & security, and SaaS platforms.
               </p>
 
-              {/* CV Highlight Projects */}
-              <h3 style={{ marginTop: "24px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px", fontSize: "18px", fontWeight: 700 }}>
-                <Star size={18} style={{ color: "#eab308", fill: "#eab308" }} /> CV Highlight Projects
-              </h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                {cvProjects.map((p) => (
-                  <div className="card" key={p.title}>
-                    <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "10px", alignItems: "baseline" }}>
-                      <h3 style={{ fontSize: "18px", color: "var(--text)" }}>{p.title}</h3>
-                      <span className="kbd" style={{ background: "var(--accent)", color: "var(--primary-hover)", borderColor: "rgba(14,165,233,0.15)" }}>
-                        {p.subtitle}
-                      </span>
-                    </div>
-                    <p style={{ margin: "8px 0 12px", fontSize: "14px", color: "var(--muted)" }}>{p.description}</p>
-                    <div className="tags">
-                      {p.tags.map((t) => (
-                        <span className="tag" key={t}>{t}</span>
-                      ))}
-                    </div>
-                    <div className="hr" />
-                    <ul style={{ margin: 0, paddingLeft: "18px", color: "var(--muted)", fontSize: "14px" }}>
-                      {p.highlights.map((h) => (
-                        <li key={h} style={{ marginBottom: "6px" }}>{h}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+              {/* Category Filter Pills */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "32px" }}>
+                {portfolioCategories.map((cat) => {
+                  const isActive = selectedCategory === cat.key;
+                  const count = cat.key === "all" ? allProjects.length : allProjects.filter(p => p.category === cat.key).length;
+                  return (
+                    <button
+                      key={cat.key}
+                      onClick={() => setSelectedCategory(cat.key)}
+                      className="pill"
+                      style={{
+                        cursor: "pointer",
+                        border: isActive ? "1px solid var(--primary)" : "1px solid var(--stroke)",
+                        background: isActive ? "var(--primary)" : "#ffffff",
+                        color: isActive ? "#ffffff" : "var(--text)",
+                        fontWeight: isActive ? 600 : 500,
+                        padding: "8px 16px",
+                        fontSize: "13px",
+                        boxShadow: isActive ? "0 4px 12px rgba(14, 165, 233, 0.25)" : "none",
+                        transition: "all 150ms ease"
+                      }}
+                    >
+                      {cat.label} ({count})
+                    </button>
+                  );
+                })}
               </div>
 
-              {/* WooCommerce Commercial Plugins */}
-              <h3 style={{ marginTop: "40px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px", fontSize: "18px", fontWeight: 700 }}>
-                <Package size={18} color="var(--primary)" /> Commercial WordPress & WooCommerce Plugins
-              </h3>
-              <p style={{ color: "var(--muted)", marginBottom: "20px", fontSize: "15px" }}>
-                High-quality extension products I developed and maintained, currently powering thousands of WooCommerce stores worldwide:
-              </p>
-              
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
-                {products.map((p) => (
-                  <div className="card" key={p.title} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                    <div>
-                      {/* Left Thumbnail + Right Title Layout */}
-                      <div style={{ display: "flex", gap: "16px", alignItems: "center", marginBottom: "14px" }}>
-                        {p.image ? (
-                          <div
-                            style={{
-                              borderRadius: "12px",
-                              overflow: "hidden",
-                              width: "90px",
-                              height: "90px",
-                              minWidth: "90px",
-                              background: "#f8fafc",
-                              border: "1px solid var(--stroke)",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              padding: "4px"
-                            }}
-                            onClick={() => setViewImage(p.image!)}
-                          >
-                            <img
-                              src={p.image}
-                              alt={p.title}
-                              style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                              onError={(e) => {
-                                e.currentTarget.style.display = "none";
-                                const parent = e.currentTarget.parentElement;
-                                if (parent) {
-                                  parent.style.padding = "0px";
-                                  const fallback = document.createElement("div");
-                                  fallback.style.width = "100%";
-                                  fallback.style.height = "100%";
-                                  fallback.style.display = "flex";
-                                  fallback.style.alignItems = "center";
-                                  fallback.style.justifyContent = "center";
-                                  fallback.style.background = "linear-gradient(135deg, var(--accent), #e0f2fe)";
-                                  fallback.style.color = "var(--primary-hover)";
-                                  fallback.style.fontWeight = "bold";
-                                  fallback.style.fontSize = "24px";
-                                  fallback.innerText = p.title.charAt(0);
-                                  parent.appendChild(fallback);
-                                }
-                              }}
-                            />
-                          </div>
-                        ) : (
-                          <div
-                            style={{
-                              borderRadius: "12px",
-                              width: "90px",
-                              height: "90px",
-                              minWidth: "90px",
-                              background: "linear-gradient(135deg, var(--accent), #e0f2fe)",
-                              color: "var(--primary-hover)",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              fontWeight: "bold",
-                              fontSize: "24px",
-                              border: "1px solid var(--stroke)"
-                            }}
-                          >
-                            {p.title.charAt(0)}
-                          </div>
-                        )}
-                        <div>
-                          <h3 style={{ fontSize: "16px", margin: 0, fontWeight: 700, color: "var(--text)" }}>{p.title}</h3>
-                          <p style={{ fontSize: "12px", color: "var(--primary-hover)", fontWeight: 600, margin: "2px 0 0" }}>
-                            {p.subtitle}
-                          </p>
+              {/* CATEGORY SECTIONS DISPLAY */}
+              {selectedCategory !== "all" && allProjects.filter((p) => p.category === selectedCategory).length === 0 && (
+                <div className="card" style={{ textAlign: "center", padding: "40px 20px", background: "var(--accent)", border: "1px dashed var(--stroke)" }}>
+                  <p style={{ margin: 0, color: "var(--muted)", fontSize: "14px" }}>
+                    📂 No projects uploaded in this section yet. Portfolio items coming soon!
+                  </p>
+                </div>
+              )}
+
+              {portfolioCategories
+                .filter((cat) => cat.key !== "all" && (selectedCategory === "all" || selectedCategory === cat.key))
+                .map((cat) => {
+                  const catProjects = allProjects.filter((p) => p.category === cat.key);
+                  if (catProjects.length === 0) return null;
+
+                  let IconComponent = Package;
+                  if (cat.key === "custom-wordpress") IconComponent = Code;
+                  if (cat.key === "wordpress-maintenance") IconComponent = Wrench;
+                  if (cat.key === "saas") IconComponent = Rocket;
+
+                  return (
+                    <div key={cat.key} style={{ marginBottom: "44px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "32px", height: "32px", borderRadius: "8px", background: "var(--accent)", color: "var(--primary-hover)" }}>
+                          <IconComponent size={18} />
                         </div>
+                        <h3 style={{ margin: 0, fontSize: "20px", fontWeight: 700 }}>{cat.label}</h3>
                       </div>
-
-                      <p style={{ fontSize: "14px", margin: "8px 0", color: "var(--muted)", lineHeight: "1.5" }}>
-                        {p.description}
+                      <p style={{ margin: "0 0 20px", fontSize: "14px", color: "var(--muted)" }}>
+                        {cat.description}
                       </p>
-                      <div className="tags" style={{ marginBottom: "12px" }}>
-                        {p.tags.map((t) => (
-                          <span className="tag" key={t}>{t}</span>
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="hr" />
-                      <ul style={{ margin: "0 0 14px", paddingLeft: "16px", fontSize: "13px", color: "var(--muted)" }}>
-                        {p.highlights.map((h) => (
-                          <li key={h} style={{ marginBottom: "4px" }}>{h}</li>
-                        ))}
-                      </ul>
-                      {p.demo && (
-                        <a className="btn primary sm" href={p.demo} target="_blank" rel="noreferrer" style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "4px" }}>
-                          View Product <ExternalLink size={12} />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
 
-              {/* Client Projects */}
-              <h3 style={{ marginTop: "40px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px", fontSize: "18px", fontWeight: 700 }}>
-                <Globe size={18} color="var(--primary)" /> Trusted Client / Custom Platforms
-              </h3>
-              
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
-                {clientProjects.map((p) => (
-                  <div className="card" key={p.title} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                    <div>
-                      {/* Left Thumbnail + Right Title Layout */}
-                      <div style={{ display: "flex", gap: "16px", alignItems: "center", marginBottom: "14px" }}>
-                        {p.image ? (
-                          <div
-                            style={{
-                              borderRadius: "12px",
-                              overflow: "hidden",
-                              width: "90px",
-                              height: "90px",
-                              minWidth: "90px",
-                              background: "#f8fafc",
-                              border: "1px solid var(--stroke)",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              padding: "4px"
-                            }}
-                            onClick={() => setViewImage(p.image!)}
-                          >
-                            <img
-                              src={p.image}
-                              alt={p.title}
-                              style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                              onError={(e) => {
-                                e.currentTarget.style.display = "none";
-                                const parent = e.currentTarget.parentElement;
-                                if (parent) {
-                                  parent.style.padding = "0px";
-                                  const fallback = document.createElement("div");
-                                  fallback.style.width = "100%";
-                                  fallback.style.height = "100%";
-                                  fallback.style.display = "flex";
-                                  fallback.style.alignItems = "center";
-                                  fallback.style.justifyContent = "center";
-                                  fallback.style.background = "linear-gradient(135deg, var(--accent), #e0f2fe)";
-                                  fallback.style.color = "var(--primary-hover)";
-                                  fallback.style.fontWeight = "bold";
-                                  fallback.style.fontSize = "24px";
-                                  fallback.innerText = p.title.charAt(0);
-                                  parent.appendChild(fallback);
-                                }
-                              }}
-                            />
-                          </div>
-                        ) : (
-                          <div
-                            style={{
-                              borderRadius: "12px",
-                              width: "90px",
-                              height: "90px",
-                              minWidth: "90px",
-                              background: "linear-gradient(135deg, var(--accent), #e0f2fe)",
-                              color: "var(--primary-hover)",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              fontWeight: "bold",
-                              fontSize: "24px",
-                              border: "1px solid var(--stroke)"
-                            }}
-                          >
-                            {p.title.charAt(0)}
-                          </div>
-                        )}
-                        <div>
-                          <h3 style={{ fontSize: "16px", margin: 0, fontWeight: 700, color: "var(--text)" }}>{p.title}</h3>
-                          <p style={{ fontSize: "12px", color: "var(--primary-hover)", fontWeight: 600, margin: "2px 0 0" }}>
-                            {p.subtitle}
-                          </p>
-                        </div>
-                      </div>
+                      <div className="products-grid">
+                        {catProjects.map((p) => (
+                          <div className="card" key={p.title} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                            <div>
+                              {/* Left Thumbnail + Right Title Layout */}
+                              <div className="card-header-thumb">
+                                {p.image ? (
+                                  <div
+                                    style={{
+                                      borderRadius: "12px",
+                                      overflow: "hidden",
+                                      width: "90px",
+                                      height: "90px",
+                                      minWidth: "90px",
+                                      background: "#f8fafc",
+                                      border: "1px solid var(--stroke)",
+                                      cursor: "pointer",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      padding: "0px"
+                                    }}
+                                    onClick={() => setViewImage(p.image!)}
+                                  >
+                                    <img
+                                      src={p.image}
+                                      alt={p.title}
+                                      style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }}
+                                      onError={(e) => {
+                                        e.currentTarget.style.display = "none";
+                                        const parent = e.currentTarget.parentElement;
+                                        if (parent) {
+                                          parent.style.padding = "0px";
+                                          const fallback = document.createElement("div");
+                                          fallback.style.width = "100%";
+                                          fallback.style.height = "100%";
+                                          fallback.style.display = "flex";
+                                          fallback.style.alignItems = "center";
+                                          fallback.style.justifyContent = "center";
+                                          fallback.style.background = "linear-gradient(135deg, var(--accent), #e0f2fe)";
+                                          fallback.style.color = "var(--primary-hover)";
+                                          fallback.style.fontWeight = "bold";
+                                          fallback.style.fontSize = "24px";
+                                          fallback.innerText = p.title.charAt(0);
+                                          parent.appendChild(fallback);
+                                        }
+                                      }}
+                                    />
+                                  </div>
+                                ) : (
+                                  <div
+                                    style={{
+                                      borderRadius: "12px",
+                                      width: "90px",
+                                      height: "90px",
+                                      minWidth: "90px",
+                                      background: "linear-gradient(135deg, var(--accent), #e0f2fe)",
+                                      color: "var(--primary-hover)",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      fontWeight: "bold",
+                                      fontSize: "24px",
+                                      border: "1px solid var(--stroke)"
+                                    }}
+                                  >
+                                    {p.title.charAt(0)}
+                                  </div>
+                                )}
+                                <div>
+                                  <h3 style={{ fontSize: "16px", margin: 0, fontWeight: 700, color: "var(--text)" }}>{p.title}</h3>
+                                  <p style={{ fontSize: "12px", color: "var(--primary-hover)", fontWeight: 600, margin: "2px 0 0" }}>
+                                    {p.subtitle}
+                                  </p>
+                                </div>
+                              </div>
 
-                      <p style={{ fontSize: "14px", margin: "8px 0", color: "var(--muted)", lineHeight: "1.5" }}>
-                        {p.description}
-                      </p>
-                      <div className="tags" style={{ marginBottom: "12px" }}>
-                        {p.tags.map((t) => (
-                          <span className="tag" key={t}>{t}</span>
+                              <p style={{ fontSize: "14px", margin: "8px 0", color: "var(--muted)", lineHeight: "1.5" }}>
+                                {p.description}
+                              </p>
+                              <div className="tags" style={{ marginBottom: "12px" }}>
+                                {p.tags.map((t) => (
+                                  <span className="tag" key={t}>{t}</span>
+                                ))}
+                              </div>
+                            </div>
+                            <div>
+                              <div className="hr" />
+                              <ul style={{ margin: "0 0 14px", paddingLeft: "16px", fontSize: "13px", color: "var(--muted)" }}>
+                                {p.highlights.map((h) => (
+                                  <li key={h} style={{ marginBottom: "4px" }}>{h}</li>
+                                ))}
+                              </ul>
+                              <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "8px" }}>
+                                {p.demo && (
+                                  <a className="btn primary sm" href={p.demo} target="_blank" rel="noreferrer" style={{ flex: "1 1 120px", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "4px" }}>
+                                    View Site <ExternalLink size={12} />
+                                  </a>
+                                )}
+                                {p.image && p.image.includes("awesomescreenshot.com") && (
+                                  <a className="btn sm" href={p.image} target="_blank" rel="noreferrer" style={{ flex: "1 1 140px", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "4px", borderColor: "var(--primary)", color: "var(--primary-hover)", background: "var(--accent)" }}>
+                                    📸 View Screenshot <ExternalLink size={12} />
+                                  </a>
+                                )}
+                              </div>
+                            </div>
+                          </div>
                         ))}
                       </div>
                     </div>
-                    <div>
-                      <div className="hr" />
-                      <ul style={{ margin: "0 0 14px", paddingLeft: "16px", fontSize: "13px", color: "var(--muted)" }}>
-                        {p.highlights.map((h) => (
-                          <li key={h} style={{ marginBottom: "4px" }}>{h}</li>
-                        ))}
-                      </ul>
-                      {p.demo && (
-                        <a className="btn sm" href={p.demo} target="_blank" rel="noreferrer" style={{ width: "100%", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "4px" }}>
-                          Visit Site <ExternalLink size={12} />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  );
+                })}
             </section>
 
             {/* EDUCATION */}
@@ -539,71 +488,50 @@ export default function Page() {
                 ))}
               </div>
             </section>
-          </div>
+      </div>
 
-          {/* RIGHT COLUMN (SIDEBAR): SKILLS, LANGUAGES, INTERESTS */}
-          <div>
-            <div style={{ position: "sticky", top: "100px", display: "flex", flexDirection: "column", gap: "24px" }}>
-              {/* Technical Skills */}
-              <div className="card" id="skills">
-                <h3 style={{ fontSize: "18px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px", fontWeight: 700 }}>
-                  <Cpu size={20} color="var(--primary)" /> Technical Stack
-                </h3>
-                {skills.map((g) => (
-                  <div key={g.group} style={{ marginBottom: "18px" }}>
-                    <h4 style={{ fontSize: "12px", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "8px" }}>
-                      {g.group}
-                    </h4>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                      {g.items.map((skill) => (
-                        <span className="tag" key={skill}>
-                          {skill}
-                        </span>
-                      ))}
+      {/* HORIZONTAL SECTION FOR LANGUAGES & INTERESTS AT THE END */}
+      <section className="section" id="languages-interests" style={{ paddingTop: "10px", paddingBottom: "20px" }}>
+        <div className="container">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "24px" }}>
+            {/* Languages */}
+            <div className="card" style={{ padding: "24px" }}>
+              <h3 style={{ fontSize: "18px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px", fontWeight: 700 }}>
+                <Languages size={20} color="var(--primary)" /> Languages Spoken
+              </h3>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: "12px" }}>
+                {languages.map((l) => (
+                  <div key={l.name} style={{ background: "var(--accent)", padding: "12px 14px", borderRadius: "12px", border: "1px solid var(--stroke)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                      <strong style={{ color: "var(--text)", fontSize: "15px" }}>{l.name}</strong>
                     </div>
+                    <span style={{ fontSize: "12px", color: "var(--primary-hover)", fontWeight: 600, display: "block", marginBottom: "2px" }}>
+                      {l.proficiency.includes("Native") ? "Native ⚡" : l.proficiency.includes("Full") ? "Fluent ⭐" : "Professional ✔️"}
+                    </span>
+                    <span style={{ fontSize: "11px", color: "var(--muted)" }}>
+                      {l.proficiency}
+                    </span>
                   </div>
                 ))}
               </div>
+            </div>
 
-              {/* Languages */}
-              <div className="card">
-                <h3 style={{ fontSize: "18px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px", fontWeight: 700 }}>
-                  <Languages size={20} color="var(--primary)" /> Languages
-                </h3>
-                <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-                  {languages.map((l) => (
-                    <div key={l.name} style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "14px" }}>
-                        <strong style={{ color: "var(--text)" }}>{l.name}</strong>
-                        <span style={{ fontSize: "12px", color: "var(--primary-hover)", fontWeight: 600 }}>
-                          {l.proficiency.includes("Native") ? "Native ⚡" : l.proficiency.includes("Full") ? "Fluent ⭐" : "Professional ✔️"}
-                        </span>
-                      </div>
-                      <span style={{ fontSize: "12px", color: "var(--muted)" }}>
-                        {l.proficiency}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Interests */}
-              <div className="card">
-                <h3 style={{ fontSize: "18px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px", fontWeight: 700 }}>
-                  <Heart size={20} color="var(--primary)" style={{ fill: "rgba(14,165,233,0.1)" }} /> Interests
-                </h3>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                  {interests.map((i) => (
-                    <span className="pill" key={i} style={{ padding: "6px 12px", fontSize: "13px", fontWeight: 500 }}>
-                      {i}
-                    </span>
-                  ))}
-                </div>
+            {/* Interests */}
+            <div className="card" style={{ padding: "24px" }}>
+              <h3 style={{ fontSize: "18px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px", fontWeight: 700 }}>
+                <Heart size={20} color="var(--primary)" style={{ fill: "rgba(14,165,233,0.1)" }} /> Personal Interests
+              </h3>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                {interests.map((i) => (
+                  <span className="pill" key={i} style={{ padding: "8px 16px", fontSize: "14px", fontWeight: 500 }}>
+                    {i}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* CONTACT SECTION */}
       <section className="section section-tight" id="contact" style={{ background: "var(--accent)", borderTop: "1px solid var(--stroke)", borderBottom: "1px solid var(--stroke)", marginTop: "40px" }}>
@@ -626,7 +554,7 @@ export default function Page() {
                 <a className="btn primary" href={`mailto:${profile.email}`} style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
                   <Mail size={16} /> Email Me
                 </a>
-                <a className="btn" href={`tel:${profile.email}`} style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                <a className="btn" href={profile.phoneHref} style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
                   <Phone size={16} /> Call Me
                 </a>
                 <a className="btn" href={linkedinLink} target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
@@ -657,7 +585,7 @@ export default function Page() {
         </div>
       </div>
 
-      {/* LIGHTBOX MODAL */}
+      {/* LIGHTBOX MODAL (FULL RESOLUTION SCROLLABLE PREVIEW) */}
       {viewImage && (
         <div
           style={{
@@ -666,21 +594,40 @@ export default function Page() {
             left: 0,
             width: "100vw",
             height: "100vh",
-            background: "rgba(255, 255, 255, 0.95)",
+            background: "rgba(15, 23, 42, 0.85)",
             zIndex: 99999,
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            cursor: "zoom-out",
-            backdropFilter: "blur(8px)"
+            padding: "24px",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)"
           }}
           onClick={() => setViewImage(null)}
         >
-          <img
-            src={viewImage}
-            alt="Preview"
-            style={{ maxWidth: "90%", maxHeight: "90%", borderRadius: "12px", boxShadow: "0 25px 50px -12px rgba(0,0,0,0.15)", border: "1px solid var(--stroke)" }}
-          />
+          <div style={{ position: "absolute", top: "16px", right: "24px", color: "#ffffff", fontSize: "13px", fontWeight: 600, background: "rgba(0,0,0,0.6)", padding: "6px 16px", borderRadius: "999px", letterSpacing: "0.02em" }}>
+            Click anywhere outside to close ✖
+          </div>
+          <div
+            style={{
+              maxHeight: "88vh",
+              maxWidth: "920px",
+              width: "100%",
+              overflowY: "auto",
+              borderRadius: "16px",
+              boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)",
+              background: "#ffffff",
+              border: "1px solid var(--stroke)"
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={viewImage}
+              alt="Full Resolution Preview"
+              style={{ width: "100%", height: "auto", display: "block" }}
+            />
+          </div>
         </div>
       )}
     </main>

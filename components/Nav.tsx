@@ -4,10 +4,10 @@ import { Download } from "lucide-react";
 
 const links = [
   { label: "Home", href: "#top" },
+  { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#products" },
   { label: "Education", href: "#education" },
-  { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -16,7 +16,7 @@ export default function Nav() {
 
   return (
     <div className="nav glass" aria-label="Primary">
-      <a href="#top" style={{ fontWeight: 800, padding: "8px 10px", fontSize: "16px", color: "var(--text)" }}>
+      <a href="#top" className="nav-brand" style={{ fontWeight: 800, padding: "8px 10px", fontSize: "16px", color: "var(--text)" }}>
         {profile.name}
       </a>
       <div className="links">
