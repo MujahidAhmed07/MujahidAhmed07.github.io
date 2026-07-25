@@ -128,9 +128,8 @@ export const educations: Education[] = [
 ];
 
 export const languages: Language[] = [
-  { name: "Sindhi", proficiency: "Native or Bilingual Proficiency" },
-  { name: "Urdu", proficiency: "Full Professional Proficiency" },
   { name: "English", proficiency: "Professional Working Proficiency" },
+  { name: "Urdu", proficiency: "Full Professional Proficiency" },
 ];
 
 export const interests = [
