@@ -64,8 +64,8 @@ export const profile = {
 
 export const skills = [
   { group: "Tech Stack", items: ["PHP", "JavaScript", "MERN Stack", "Ajax", "jQuery", "WordPress Plugin Dev", "MySQL", "Shopify", "Spring Boot (Java)", "HTML/CSS"] },
-  { group: "Concepts & Workflow", items: ["Object-Oriented Programming", "REST API Design", "System Architecture", "Git", "GitHub", "Problem Solving", "WooCommerce compliance"] },
-  { group: "Tools & Collaboration", items: ["AI Coding Tools (Cursor / Antigravity / Claude)", "Slack", "Jira", "Teamwork", "Hubstaff", "VS Code"] }
+  { group: "Concepts & Architecture", items: ["Object-Oriented Programming", "REST API Design", "System Architecture", "Git", "GitHub", "WooCommerce Compliance", "Problem Solving"] },
+  { group: "Tools & Hosting Management", items: ["Postman / Insomnia", "cPanel & Hosting Management", "Cloudflare Integration", "AI Coding Tools (Cursor / Antigravity / Claude)", "VS Code", "Slack", "Jira", "Teamwork", "Hubstaff"] }
 ];
 
 export const experiences: Experience[] = [
