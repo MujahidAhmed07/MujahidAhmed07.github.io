@@ -226,7 +226,7 @@ export default function Page() {
             {skills.map((g, idx) => (
               <div key={g.group} className="card" style={{ padding: "20px", display: "flex", flexDirection: "column" }}>
                 <h3 style={{ fontSize: "14px", color: "var(--primary-hover)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "14px", fontWeight: 700, display: "flex", alignItems: "center", gap: "8px" }}>
-                  {idx === 0 ? <Code size={16} /> : idx === 1 ? <Layers size={16} /> : <Wrench size={16} />}
+                  {idx === 0 ? <Code size={16} /> : idx === 1 ? <Layers size={16} /> : idx === 2 ? <Globe size={16} /> : <Wrench size={16} />}
                   {g.group}
                 </h3>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>

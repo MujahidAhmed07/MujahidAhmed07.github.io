@@ -63,9 +63,22 @@ export const profile = {
 };
 
 export const skills = [
-  { group: "Tech Stack", items: ["PHP", "JavaScript", "MERN Stack", "Ajax", "jQuery", "WordPress Plugin Dev", "MySQL", "Shopify", "Spring Boot (Java)", "HTML/CSS"] },
-  { group: "Concepts & Architecture", items: ["Object-Oriented Programming", "REST API Design", "System Architecture", "Git", "GitHub", "WooCommerce Compliance", "Problem Solving"] },
-  { group: "Tools & Hosting Management", items: ["Postman / Insomnia", "cPanel & Hosting Management", "Cloudflare Integration", "AI Coding Tools (Cursor / Antigravity / Claude)", "VS Code", "Slack", "Jira", "Teamwork", "Hubstaff"] }
+  {
+    group: "Tech Stack",
+    items: ["PHP", "JavaScript", "React.js", "Node.js", "Express.js", "MERN Stack", "Flask (Python)", "Spring Boot (Java)", "MySQL", "Ajax / jQuery", "HTML5/CSS3"]
+  },
+  {
+    group: "Concepts & Architecture",
+    items: ["Object-Oriented Programming", "REST API Design", "System Architecture", "Security Hardening", "Database Query Optimization", "Git & GitHub Workflow", "Problem Solving"]
+  },
+  {
+    group: "Domain & E-Commerce",
+    items: ["WordPress Plugin Architecture", "WooCommerce Compliance", "LearnDash / LifterLMS", "BuddyBoss Modules", "Shopify Development", "B2B E-Commerce Workflows"]
+  },
+  {
+    group: "Tools, Hosting & Infra",
+    items: ["Postman / Insomnia", "WP-CLI", "Composer", "Query Monitor", "cPanel & Hosting Management", "Cloudflare CDN & Security", "AI Coding Tools (Cursor / Antigravity / Claude)", "VS Code", "Jira / Slack / Hubstaff"]
+  }
 ];
 
 export const experiences: Experience[] = [
