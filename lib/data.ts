@@ -223,7 +223,7 @@ export const allProjects: Project[] = [
     category: "wordpress",
     tags: ["WooCommerce.com", "Compliance", "50,000+ Gate Checks"],
     demo: "https://woocommerce.com/products/woocommerce-product-disclaimer/",
-    image: "https://woocommerce.com/wp-content/uploads/2018/11/Product-Disclaimer-For-WooCommerce-2.png",
+    image: "/ageverification.png",
     highlights: [
       "Enforced legal compliance for 50,000+ age-restricted product visits using custom DOB verification popups.",
       "Minimized buyer disruption by utilizing secure encrypted cookies to remember verified repeat shoppers.",
