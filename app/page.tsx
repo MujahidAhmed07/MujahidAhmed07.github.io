@@ -107,13 +107,16 @@ export default function Page() {
                 </p>
 
                 <div className="cta">
-                  <button
+                  <a
+                    href="/Mujahid Ahmed Resume.pdf"
+                    download="Mujahid_Ahmed_CV.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="btn primary"
-                    onClick={() => window.print()}
-                    style={{ display: "inline-flex", alignItems: "center", gap: "8px", cursor: "pointer", border: "none" }}
+                    style={{ display: "inline-flex", alignItems: "center", gap: "8px", cursor: "pointer", border: "none", textDecoration: "none" }}
                   >
                     <Download size={18} /> Download CV
-                  </button>
+                  </a>
                   <a
                     className="btn"
                     href="#contact"

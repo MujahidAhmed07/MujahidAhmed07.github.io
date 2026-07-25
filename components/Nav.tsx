@@ -89,25 +89,31 @@ export default function Nav() {
             );
           })}
 
-          <button
+          <a
+            href="/Mujahid Ahmed Resume.pdf"
+            download="Mujahid_Ahmed_CV.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn primary sm"
-            onClick={() => window.print()}
-            style={{ marginLeft: "8px", display: "inline-flex", alignItems: "center", gap: "6px", cursor: "pointer", border: "none" }}
+            style={{ marginLeft: "8px", display: "inline-flex", alignItems: "center", gap: "6px", cursor: "pointer", border: "none", textDecoration: "none" }}
           >
             <Download size={14} />
-            PDF
-          </button>
+            Download CV
+          </a>
         </div>
 
-        {/* Mobile Controls (PDF + Hamburger Toggle) */}
+        {/* Mobile Controls (CV + Hamburger Toggle) */}
         <div className="mobile-only-controls" style={{ display: "none", alignItems: "center", gap: "8px" }}>
-          <button
+          <a
+            href="/Mujahid Ahmed Resume.pdf"
+            download="Mujahid_Ahmed_CV.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn primary sm"
-            onClick={() => window.print()}
-            style={{ display: "inline-flex", alignItems: "center", gap: "4px", padding: "6px 10px", fontSize: "12px", border: "none" }}
+            style={{ display: "inline-flex", alignItems: "center", gap: "4px", padding: "6px 10px", fontSize: "12px", border: "none", textDecoration: "none" }}
           >
-            <Download size={13} /> PDF
-          </button>
+            <Download size={13} /> CV
+          </a>
           <button
             aria-label="Toggle navigation menu"
             onClick={() => setIsOpen(!isOpen)}
