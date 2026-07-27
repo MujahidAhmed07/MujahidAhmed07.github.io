@@ -2,7 +2,7 @@
 
 import Nav from "@/components/Nav";
 import SectionTitle from "@/components/SectionTitle";
-import { allProjects, portfolioCategories, CategoryKey, experiences, profile, skills, educations, languages, interests } from "@/lib/data";
+import { allProjects, portfolioCategories, CategoryKey, experiences, profile, skills, educations, languages, interests, caseStudies } from "@/lib/data";
 import { useHashNav } from "@/lib/hooks";
 import { useState } from "react";
 import {
@@ -26,7 +26,8 @@ import {
   Rocket,
   Layers,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  FileText
 } from "lucide-react";
 
 // Standard SVG definitions for GitHub and LinkedIn matching Feather/Lucide aesthetic
@@ -245,248 +246,299 @@ export default function Page() {
         </section>
 
         {/* WORK EXPERIENCE */}
-        <section className="section" id="experience" style={{ paddingTop: 0 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "18px" }}>
-                <Briefcase size={24} color="var(--primary)" />
-                <h2 style={{ margin: 0, fontSize: "24px", fontWeight: 800 }}>Work Experience</h2>
-              </div>
-              <p style={{ color: "var(--muted)", marginBottom: "24px", fontSize: "15px", maxWidth: "760px" }}>
-                Professional developer roles where I engineered robust backend plugins, optimized WooCommerce sites, and resolved complex integrations.
-              </p>
+        <section className="section" id="experience">
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "18px" }}>
+            <Briefcase size={24} color="var(--primary)" />
+            <h2 style={{ margin: 0, fontSize: "24px", fontWeight: 800 }}>Work Experience</h2>
+          </div>
+          <p style={{ color: "var(--muted)", marginBottom: "24px", fontSize: "15px", maxWidth: "760px" }}>
+            Professional developer roles where I engineered robust backend plugins, optimized WooCommerce sites, and resolved complex integrations.
+          </p>
 
-              <div className="timeline">
-                {experiences.map((e) => (
-                  <div className="timeline-item" key={e.company}>
-                    <div className="card" style={{ marginLeft: "8px" }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "10px", alignItems: "baseline" }}>
-                        <h3 style={{ fontSize: "20px", fontWeight: "700", color: "var(--text)" }}>{e.role}</h3>
-                        <span style={{ fontSize: "14px", fontWeight: "600", color: "var(--primary)" }}>{e.range}</span>
-                      </div>
-                      <p style={{ margin: "4px 0 10px", fontSize: "15px", fontWeight: "600", color: "var(--text)" }}>
-                        🏢 {e.company} &nbsp;•&nbsp; 📍 <span style={{ opacity: 0.8, fontWeight: 400 }}>{e.location}</span>
-                      </p>
-                      {e.description && (
-                        <p style={{ margin: "0 0 12px", fontStyle: "italic", fontSize: "14px", color: "var(--muted)" }}>
-                          {e.description}
-                        </p>
-                      )}
-                      <ul style={{ margin: 0, paddingLeft: "18px", color: "var(--muted)", lineHeight: "1.6" }}>
-                        {e.bullets.map((bullet) => (
-                          <li key={bullet} style={{ marginBottom: "6px" }}>{bullet}</li>
-                        ))}
-                      </ul>
-                    </div>
+          <div className="timeline">
+            {experiences.map((e) => (
+              <div className="timeline-item" key={e.company}>
+                <div className="card" style={{ marginLeft: "8px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "10px", alignItems: "baseline" }}>
+                    <h3 style={{ fontSize: "20px", fontWeight: "700", color: "var(--text)" }}>{e.role}</h3>
+                    <span style={{ fontSize: "14px", fontWeight: "600", color: "var(--primary)" }}>{e.range}</span>
                   </div>
-                ))}
-              </div>
-            </section>
-
-            {/* PROJECTS SECTION WITH CATEGORIES */}
-            <section className="section" id="products">
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
-                <Package size={24} color="var(--primary)" />
-                <h2 style={{ margin: 0, fontSize: "24px", fontWeight: 800 }}>Portfolio & Specialized Solutions</h2>
-              </div>
-              <p style={{ color: "var(--muted)", marginBottom: "20px", fontSize: "15px", maxWidth: "760px" }}>
-                Categorized software projects across WordPress commercial extensions, custom LMS modules, site maintenance & security, and SaaS platforms.
-              </p>
-
-              {/* Category Filter Pills */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "32px" }}>
-                {portfolioCategories.map((cat) => {
-                  const isActive = selectedCategory === cat.key;
-                  const count = cat.key === "all" ? allProjects.length : allProjects.filter(p => p.category === cat.key).length;
-                  return (
-                    <button
-                      key={cat.key}
-                      onClick={() => setSelectedCategory(cat.key)}
-                      className="pill"
-                      style={{
-                        cursor: "pointer",
-                        border: isActive ? "1px solid var(--primary)" : "1px solid var(--stroke)",
-                        background: isActive ? "var(--primary)" : "#ffffff",
-                        color: isActive ? "#ffffff" : "var(--text)",
-                        fontWeight: isActive ? 600 : 500,
-                        padding: "8px 16px",
-                        fontSize: "13px",
-                        boxShadow: isActive ? "0 4px 12px rgba(14, 165, 233, 0.25)" : "none",
-                        transition: "all 150ms ease"
-                      }}
-                    >
-                      {cat.label} ({count})
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* CATEGORY SECTIONS DISPLAY */}
-              {selectedCategory !== "all" && allProjects.filter((p) => p.category === selectedCategory).length === 0 && (
-                <div className="card" style={{ textAlign: "center", padding: "40px 20px", background: "var(--accent)", border: "1px dashed var(--stroke)" }}>
-                  <p style={{ margin: 0, color: "var(--muted)", fontSize: "14px" }}>
-                    📂 No projects uploaded in this section yet. Portfolio items coming soon!
+                  <p style={{ margin: "4px 0 10px", fontSize: "15px", fontWeight: "600", color: "var(--text)" }}>
+                    🏢 {e.company} &nbsp;•&nbsp; 📍 <span style={{ opacity: 0.8, fontWeight: 400 }}>{e.location}</span>
                   </p>
+                  {e.description && (
+                    <p style={{ margin: "0 0 12px", fontStyle: "italic", fontSize: "14px", color: "var(--muted)" }}>
+                      {e.description}
+                    </p>
+                  )}
+                  <ul style={{ margin: 0, paddingLeft: "18px", color: "var(--muted)", lineHeight: "1.6" }}>
+                    {e.bullets.map((bullet) => (
+                      <li key={bullet} style={{ marginBottom: "6px" }}>{bullet}</li>
+                    ))}
+                  </ul>
                 </div>
-              )}
+              </div>
+            ))}
+          </div>
+        </section>
 
-              {portfolioCategories
-                .filter((cat) => cat.key !== "all" && (selectedCategory === "all" || selectedCategory === cat.key))
-                .map((cat) => {
-                  const catProjects = allProjects.filter((p) => p.category === cat.key);
-                  if (catProjects.length === 0) return null;
+        {/* PROJECTS SECTION WITH CATEGORIES */}
+        <section className="section" id="products">
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
+            <Package size={24} color="var(--primary)" />
+            <h2 style={{ margin: 0, fontSize: "24px", fontWeight: 800 }}>Portfolio & Specialized Solutions</h2>
+          </div>
+          <p style={{ color: "var(--muted)", marginBottom: "20px", fontSize: "15px", maxWidth: "760px" }}>
+            Categorized software projects across WordPress commercial extensions, custom LMS modules, site maintenance & security, and SaaS platforms.
+          </p>
 
-                  let IconComponent = Package;
-                  if (cat.key === "custom-wordpress") IconComponent = Code;
-                  if (cat.key === "wordpress-maintenance") IconComponent = Wrench;
-                  if (cat.key === "saas") IconComponent = Rocket;
+          {/* Category Filter Pills */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "32px" }}>
+            {portfolioCategories.map((cat) => {
+              const isActive = selectedCategory === cat.key;
+              const count = cat.key === "all" ? allProjects.length : allProjects.filter(p => p.category === cat.key).length;
+              return (
+                <button
+                  key={cat.key}
+                  onClick={() => setSelectedCategory(cat.key)}
+                  className="pill"
+                  style={{
+                    cursor: "pointer",
+                    border: isActive ? "1px solid var(--primary)" : "1px solid var(--stroke)",
+                    background: isActive ? "var(--primary)" : "#ffffff",
+                    color: isActive ? "#ffffff" : "var(--text)",
+                    fontWeight: isActive ? 600 : 500,
+                    padding: "8px 16px",
+                    fontSize: "13px",
+                    boxShadow: isActive ? "0 4px 12px rgba(14, 165, 233, 0.25)" : "none",
+                    transition: "all 150ms ease"
+                  }}
+                >
+                  {cat.label} ({count})
+                </button>
+              );
+            })}
+          </div>
 
-                  const isExpanded = !!expandedCats[cat.key];
-                  const visibleProjects = isExpanded ? catProjects : catProjects.slice(0, 3);
+          {/* CATEGORY SECTIONS DISPLAY */}
+          {selectedCategory !== "all" && allProjects.filter((p) => p.category === selectedCategory).length === 0 && (
+            <div className="card" style={{ textAlign: "center", padding: "40px 20px", background: "var(--accent)", border: "1px dashed var(--stroke)" }}>
+              <p style={{ margin: 0, color: "var(--muted)", fontSize: "14px" }}>
+                📂 No projects uploaded in this section yet. Portfolio items coming soon!
+              </p>
+            </div>
+          )}
 
-                  return (
-                    <div key={cat.key} style={{ marginBottom: "44px" }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
-                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "32px", height: "32px", borderRadius: "8px", background: "var(--accent)", color: "var(--primary-hover)" }}>
-                          <IconComponent size={18} />
-                        </div>
-                        <h3 style={{ margin: 0, fontSize: "20px", fontWeight: 700 }}>{cat.label}</h3>
-                      </div>
-                      <p style={{ margin: "0 0 20px", fontSize: "14px", color: "var(--muted)" }}>
-                        {cat.description}
-                      </p>
+          {portfolioCategories
+            .filter((cat) => cat.key !== "all" && (selectedCategory === "all" || selectedCategory === cat.key))
+            .map((cat) => {
+              const catProjects = allProjects.filter((p) => p.category === cat.key);
+              if (catProjects.length === 0) return null;
 
-                      <div className="products-grid">
-                        {visibleProjects.map((p) => (
-                          <div className="card" key={p.title} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden", padding: "0px" }}>
-                            <div>
-                              {/* Full-Width Image Banner */}
-                              {p.image ? (
-                                <div
-                                  style={{
-                                    width: "100%",
-                                    height: "170px",
-                                    background: "#f8fafc",
-                                    borderBottom: "1px solid var(--stroke)",
-                                    cursor: "pointer",
-                                    overflow: "hidden",
-                                    position: "relative"
-                                  }}
-                                  onClick={() => setViewImage(p.image!)}
-                                >
-                                  <img
-                                    src={p.image}
-                                    alt={p.title}
-                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }}
-                                    onError={(e) => {
-                                      e.currentTarget.style.display = "none";
-                                      const parent = e.currentTarget.parentElement;
-                                      if (parent) {
-                                        parent.style.display = "none";
-                                      }
-                                    }}
-                                  />
-                                  <div style={{ position: "absolute", bottom: "8px", right: "8px", background: "rgba(0,0,0,0.6)", color: "#ffffff", fontSize: "11px", fontWeight: 600, padding: "3px 8px", borderRadius: "6px", backdropFilter: "blur(4px)" }}>
-                                    🔍 Click to expand
-                                  </div>
-                                </div>
-                              ) : (
-                                <div
-                                  style={{
-                                    width: "100%",
-                                    height: "110px",
-                                    background: "linear-gradient(135deg, var(--accent), #e0f2fe)",
-                                    color: "var(--primary-hover)",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    fontWeight: 800,
-                                    fontSize: "28px",
-                                    borderBottom: "1px solid var(--stroke)"
-                                  }}
-                                >
-                                  {p.title.charAt(0)}
-                                </div>
-                              )}
+              let IconComponent = Package;
+              if (cat.key === "custom-wordpress") IconComponent = Code;
+              if (cat.key === "wordpress-maintenance") IconComponent = Wrench;
+              if (cat.key === "saas") IconComponent = Rocket;
 
-                              {/* Card Text Content */}
-                              <div style={{ padding: "18px 18px 0" }}>
-                                <h3 style={{ fontSize: "17px", margin: 0, fontWeight: 700, color: "var(--text)" }}>{p.title}</h3>
-                                <p style={{ fontSize: "12px", color: "var(--primary-hover)", fontWeight: 600, margin: "3px 0 10px" }}>
-                                  {p.subtitle}
-                                </p>
+              const isExpanded = !!expandedCats[cat.key];
+              const visibleProjects = isExpanded ? catProjects : catProjects.slice(0, 3);
 
-                                <p style={{ fontSize: "14px", margin: "0 0 12px", color: "var(--muted)", lineHeight: "1.5" }}>
-                                  {p.description}
-                                </p>
-                                <div className="tags" style={{ marginBottom: "12px" }}>
-                                  {p.tags.map((t) => (
-                                    <span className="tag" key={t}>{t}</span>
-                                  ))}
-                                </div>
+              return (
+                <div key={cat.key} style={{ marginBottom: "44px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "32px", height: "32px", borderRadius: "8px", background: "var(--accent)", color: "var(--primary-hover)" }}>
+                      <IconComponent size={18} />
+                    </div>
+                    <h3 style={{ margin: 0, fontSize: "20px", fontWeight: 700 }}>{cat.label}</h3>
+                  </div>
+                  <p style={{ margin: "0 0 20px", fontSize: "14px", color: "var(--muted)" }}>
+                    {cat.description}
+                  </p>
+
+                  <div className="products-grid">
+                    {visibleProjects.map((p) => (
+                      <div className="card" key={p.title} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden", padding: "0px" }}>
+                        <div>
+                          {/* Full-Width Image Banner */}
+                          {p.image ? (
+                            <div
+                              style={{
+                                width: "100%",
+                                height: "170px",
+                                background: "#f8fafc",
+                                borderBottom: "1px solid var(--stroke)",
+                                cursor: "pointer",
+                                overflow: "hidden",
+                                position: "relative"
+                              }}
+                              onClick={() => setViewImage(p.image!)}
+                            >
+                              <img
+                                src={p.image}
+                                alt={p.title}
+                                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }}
+                                onError={(e) => {
+                                  e.currentTarget.style.display = "none";
+                                  const parent = e.currentTarget.parentElement;
+                                  if (parent) {
+                                    parent.style.display = "none";
+                                  }
+                                }}
+                              />
+                              <div style={{ position: "absolute", bottom: "8px", right: "8px", background: "rgba(0,0,0,0.6)", color: "#ffffff", fontSize: "11px", fontWeight: 600, padding: "3px 8px", borderRadius: "6px", backdropFilter: "blur(4px)" }}>
+                                🔍 Click to expand
                               </div>
                             </div>
+                          ) : (
+                            <div
+                              style={{
+                                width: "100%",
+                                height: "110px",
+                                background: "linear-gradient(135deg, var(--accent), #e0f2fe)",
+                                color: "var(--primary-hover)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontWeight: 800,
+                                fontSize: "28px",
+                                borderBottom: "1px solid var(--stroke)"
+                              }}
+                            >
+                              {p.title.charAt(0)}
+                            </div>
+                          )}
 
-                            <div style={{ padding: "0 18px 18px" }}>
-                              <div className="hr" style={{ margin: "0 0 14px" }} />
-                              <ul style={{ margin: "0 0 14px", paddingLeft: "16px", fontSize: "13px", color: "var(--muted)" }}>
-                                {p.highlights.map((h) => (
-                                  <li key={h} style={{ marginBottom: "4px" }}>{h}</li>
-                                ))}
-                              </ul>
-                              <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "8px" }}>
-                                {p.demo && (
-                                  <a className="btn primary sm" href={p.demo} target="_blank" rel="noreferrer" style={{ flex: "1 1 120px", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "4px" }}>
-                                    View Site <ExternalLink size={12} />
-                                  </a>
-                                )}
-                                {p.image && p.image.includes("awesomescreenshot.com") && (
-                                  <a className="btn sm" href={p.image} target="_blank" rel="noreferrer" style={{ flex: "1 1 140px", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "4px", borderColor: "var(--primary)", color: "var(--primary-hover)", background: "var(--accent)" }}>
-                                    📸 View Screenshot <ExternalLink size={12} />
-                                  </a>
-                                )}
-                              </div>
+                          {/* Card Text Content */}
+                          <div style={{ padding: "18px 18px 0" }}>
+                            <h3 style={{ fontSize: "17px", margin: 0, fontWeight: 700, color: "var(--text)" }}>{p.title}</h3>
+                            <p style={{ fontSize: "12px", color: "var(--primary-hover)", fontWeight: 600, margin: "3px 0 10px" }}>
+                              {p.subtitle}
+                            </p>
+
+                            <p style={{ fontSize: "14px", margin: "0 0 12px", color: "var(--muted)", lineHeight: "1.5" }}>
+                              {p.description}
+                            </p>
+                            <div className="tags" style={{ marginBottom: "12px" }}>
+                              {p.tags.map((t) => (
+                                <span className="tag" key={t}>{t}</span>
+                              ))}
                             </div>
                           </div>
-                        ))}
-                      </div>
-
-                      {catProjects.length > 3 && (
-                        <div style={{ textAlign: "center", marginTop: "24px" }}>
-                          <button
-                            className="btn"
-                            onClick={() =>
-                              setExpandedCats((prev) => ({ ...prev, [cat.key]: !prev[cat.key] }))
-                            }
-                            style={{
-                              display: "inline-flex",
-                              alignItems: "center",
-                              gap: "8px",
-                              padding: "10px 24px",
-                              borderRadius: "12px",
-                              fontSize: "14px",
-                              fontWeight: 600,
-                              background: "var(--accent)",
-                              color: "var(--primary-hover)",
-                              border: "1px solid var(--stroke)",
-                              cursor: "pointer",
-                              transition: "all 150ms ease"
-                            }}
-                          >
-                            {isExpanded ? (
-                              <>
-                                <ChevronUp size={16} /> Show Less
-                              </>
-                            ) : (
-                              <>
-                                <ChevronDown size={16} /> Show More
-                              </>
-                            )}
-                          </button>
                         </div>
-                      )}
+
+                        <div style={{ padding: "0 18px 18px" }}>
+                          <div className="hr" style={{ margin: "0 0 14px" }} />
+                          <ul style={{ margin: "0 0 14px", paddingLeft: "16px", fontSize: "13px", color: "var(--muted)" }}>
+                            {p.highlights.map((h) => (
+                              <li key={h} style={{ marginBottom: "4px" }}>{h}</li>
+                            ))}
+                          </ul>
+                          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "8px" }}>
+                            {p.demo && (
+                              <a className="btn primary sm" href={p.demo} target="_blank" rel="noreferrer" style={{ flex: "1 1 120px", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "4px" }}>
+                                View Site <ExternalLink size={12} />
+                              </a>
+                            )}
+                            {p.image && p.image.includes("awesomescreenshot.com") && (
+                              <a className="btn sm" href={p.image} target="_blank" rel="noreferrer" style={{ flex: "1 1 140px", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "4px", borderColor: "var(--primary)", color: "var(--primary-hover)", background: "var(--accent)" }}>
+                                📸 View Screenshot <ExternalLink size={12} />
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {catProjects.length > 3 && (
+                    <div style={{ textAlign: "center", marginTop: "24px" }}>
+                      <button
+                        className="btn"
+                        onClick={() =>
+                          setExpandedCats((prev) => ({ ...prev, [cat.key]: !prev[cat.key] }))
+                        }
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "8px",
+                          padding: "10px 24px",
+                          borderRadius: "12px",
+                          fontSize: "14px",
+                          fontWeight: 600,
+                          background: "var(--accent)",
+                          color: "var(--primary-hover)",
+                          border: "1px solid var(--stroke)",
+                          cursor: "pointer",
+                          transition: "all 150ms ease"
+                        }}
+                      >
+                        {isExpanded ? (
+                          <>
+                            <ChevronUp size={16} /> Show Less
+                          </>
+                        ) : (
+                          <>
+                            <ChevronDown size={16} /> Show More
+                          </>
+                        )}
+                      </button>
                     </div>
-                  );
-                })}
-            </section>
+                  )}
+                </div>
+              );
+            })}
+        </section>
+
+        {/* CASE STUDIES SECTION */}
+        <section className="section" id="case-studies">
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
+            <FileText size={24} color="var(--primary)" />
+            <h2 style={{ margin: 0, fontSize: "24px", fontWeight: 800 }}>Case Studies</h2>
+          </div>
+          <p style={{ color: "var(--muted)", marginBottom: "20px", fontSize: "15px", maxWidth: "760px" }}>
+            In-depth technical breakdowns, architectural challenges, and engineering solutions from high-impact client projects.
+          </p>
+
+          {caseStudies.length === 0 ? (
+            <div className="card" style={{ textAlign: "center", padding: "44px 24px", background: "var(--accent)", border: "1px dashed var(--stroke)", borderRadius: "16px" }}>
+              <div style={{ display: "inline-flex", padding: "12px", borderRadius: "50%", background: "#ffffff", color: "var(--primary)", marginBottom: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
+                <FileText size={26} />
+              </div>
+              <h3 style={{ margin: "0 0 6px", fontSize: "17px", fontWeight: 700, color: "var(--text)" }}>
+                Case Studies Section Ready
+              </h3>
+              <p style={{ margin: 0, color: "var(--muted)", fontSize: "14px", maxWidth: "520px", marginLeft: "auto", marginRight: "auto" }}>
+                Detailed technical case studies highlighting problem statements, system architecture solutions, and performance metrics will be added here.
+              </p>
+            </div>
+          ) : (
+            <div className="products-grid">
+              {caseStudies.map((cs) => (
+                <div className="card" key={cs.title} style={{ padding: "20px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                  <div>
+                    <span className="tag" style={{ fontSize: "12px", marginBottom: "10px", background: "var(--accent)", color: "var(--primary-hover)", border: "1px solid var(--stroke)" }}>
+                      {cs.category}
+                    </span>
+                    <h3 style={{ fontSize: "18px", fontWeight: 700, margin: "6px 0 8px" }}>{cs.title}</h3>
+                    <p style={{ fontSize: "14px", color: "var(--muted)", marginBottom: "14px", lineHeight: "1.5" }}>{cs.summary}</p>
+                    {cs.problem && (
+                      <div style={{ marginBottom: "10px" }}>
+                        <strong style={{ fontSize: "13px", color: "var(--text)" }}>Challenge:</strong>
+                        <p style={{ fontSize: "13px", color: "var(--muted)", margin: "2px 0 0" }}>{cs.problem}</p>
+                      </div>
+                    )}
+                    {cs.solution && (
+                      <div style={{ marginBottom: "10px" }}>
+                        <strong style={{ fontSize: "13px", color: "var(--primary-hover)" }}>Solution:</strong>
+                        <p style={{ fontSize: "13px", color: "var(--muted)", margin: "2px 0 0" }}>{cs.solution}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
 
             {/* EDUCATION */}
             <section className="section" id="education">

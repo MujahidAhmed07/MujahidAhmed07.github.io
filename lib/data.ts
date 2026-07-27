@@ -65,19 +65,36 @@ export const profile = {
 export const skills = [
   {
     group: "Tech Stack",
-    items: ["PHP", "JavaScript", "React.js", "Node.js", "Express.js", "MERN Stack", "Flask (Python)", "Spring Boot (Java)", "MySQL", "Ajax / jQuery", "HTML5/CSS3"]
+    items: [
+      "WordPress",
+      "PHP",
+      "JavaScript",
+      "React.js",
+      "Next.js",
+      "Nest.js",
+      "Node.js",
+      "Express.js",
+      "MongoDB / NoSQL",
+      "SQL / MySQL",
+      "REST API / GraphQL",
+      "WebSockets",
+      "Flask (Python)",
+      "Spring Boot (Java)",
+      "Ajax / jQuery",
+      "HTML5/CSS3"
+    ]
   },
   {
     group: "Concepts & Architecture",
-    items: ["Object-Oriented Programming", "REST API Design", "System Architecture", "Security Hardening", "Database Query Optimization", "Git & GitHub Workflow", "Problem Solving"]
+    items: ["Object-Oriented Programming", "REST API Design", "System Architecture", "Security Hardening", "Database Query Optimization", "Site Clone & Migration", "Git & GitHub Workflow", "Problem Solving"]
   },
   {
     group: "Domain & E-Commerce",
-    items: ["WordPress Plugin Architecture", "WooCommerce Compliance", "LearnDash / LifterLMS", "BuddyBoss Modules", "Shopify Development", "B2B E-Commerce Workflows"]
+    items: ["WordPress Plugin Architecture", "WooCommerce Compliance", "LearnDash / LifterLMS", "LearnDash WooCommerce Integration", "LearnDash Course Subscription", "Shopify Development", "B2B E-Commerce Workflows"]
   },
   {
     group: "Tools, Hosting & Infra",
-    items: ["Postman / Insomnia", "WP-CLI", "Composer", "Query Monitor", "cPanel & Hosting Management", "Cloudflare CDN & Security", "AI Coding Tools (Cursor / Antigravity / Claude)", "VS Code", "Jira / Slack / Hubstaff"]
+    items: ["Postman / Insomnia", "WP-CLI", "Composer", "Query Monitor", "cPanel & Hosting Management", "Cloudflare CDN & Security", "AI Coding Tools (Cursor / Antigravity / Claude)", "VS Code", "Teamwork", "Jira / Slack / Hubstaff"]
   }
 ];
 
@@ -235,15 +252,17 @@ export const allProjects: Project[] = [
   // 2. CUSTOM WORDPRESS & LMS
   // -------------------------------------------------------------
   {
-    title: "40+ Custom LMS & E-Commerce Addons",
-    subtitle: "LearnDash, LifterLMS, BuddyBoss Platform",
-    description: "Custom developments and specialized plugins for LearnDash, WooCommerce, LifterLMS, and BuddyBoss platforms including AI modules.",
+    title: "Seamless Sonography",
+    subtitle: "Client Project • Ultrasound LMS & Education",
+    description: "Advanced ultrasound education platform offering structured clinical courses, real-time filtering, and secure student intake.",
     category: "custom-wordpress",
-    tags: ["WordPress", "LearnDash", "BuddyBoss", "20,000+ Learners"],
+    tags: ["WordPress", "Medical Education", "reCAPTCHA", "AJAX Filter"],
+    demo: "https://seamlesssonography.com/",
+    image: "/seamlesssonography.png",
     highlights: [
-      "Engineered 40+ custom add-ons for LearnDash, LifterLMS, and BuddyBoss powering 20,000+ active learners.",
-      "Built AI summary & transcript generator for course videos, cutting student lesson review time by 30%.",
-      "Automated custom PDF certificate issuance, invitation modules, and bulk quiz importing workflows."
+      "Implemented Google reCAPTCHA protection across registration & contact forms, eliminating automated spam submissions.",
+      "Engineered a real-time AJAX course filtering system allowing students to instantly sort ultrasound courses by clinical specialty.",
+      "Fixed lesson short-text visibility & display bugs, optimizing readability across desktop and mobile devices."
     ],
   },
   {
@@ -276,6 +295,19 @@ export const allProjects: Project[] = [
   // -------------------------------------------------------------
   // 3. WORDPRESS MAINTENANCE & SECURITY
   // -------------------------------------------------------------
+  {
+    title: "AREA Real Estate School",
+    subtitle: "Security, SMTP & Performance Care",
+    description: "WordPress maintenance, Cloudflare CDN integration, security hardening, and transactional email optimization.",
+    category: "wordpress-maintenance",
+    tags: ["Security Hardening", "Cloudflare CDN", "SMTP Email", "LearnDash"],
+    demo: "https://area-school.com/",
+    image: "/areaschool.png",
+    highlights: [
+      "Implemented security optimization including Google reCAPTCHA, limit login attempts, and Cloudflare CDN—mitigating bot attacks and boosting site loading speed by 25%.",
+      "Configured reliable SMTP transactional mail routing, ensuring 100% notification deliverability across LearnDash LMS courses and WooCommerce checkout receipts."
+    ],
+  },
   {
     title: "Got Your Back",
     subtitle: "Maintenance & Security Hardening",
@@ -410,3 +442,19 @@ export const allProjects: Project[] = [
     ],
   },
 ];
+
+export interface CaseStudy {
+  title: string;
+  client?: string;
+  category: string;
+  summary: string;
+  problem?: string;
+  solution?: string;
+  results?: string[];
+  tags: string[];
+  link?: string;
+  image?: string;
+}
+
+export const caseStudies: CaseStudy[] = [];
+
