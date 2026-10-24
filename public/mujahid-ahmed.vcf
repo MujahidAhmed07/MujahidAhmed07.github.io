@@ -1,0 +1,16 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Ahmed;Mujahid;;;
+FN:Mujahid Ahmed
+NICKNAME:Mujahid
+ORG:WooNinjas
+TITLE:Software Engineer & Plugin Architect
+ROLE:Full Stack Engineer
+TEL;TYPE=CELL,VOICE,PREF:+60164023560
+EMAIL;TYPE=INTERNET,PREF:ahmedqure758@gmail.com
+URL;TYPE=WORK:https://mujahidahmed07.github.io
+ADR;TYPE=WORK,POSTAL,PARCEL:;;Petaling Jaya;Selangor;;Malaysia
+NOTE:Results-driven Software Engineer with 3+ years of experience in full-stack development, WordPress plugin architecture, and API integration.
+URL;TYPE=LinkedIn:https://www.linkedin.com/in/mujahid-ahmed-970b98228/
+URL;TYPE=GitHub:https://github.com/MujahidAhmed07
+END:VCARD

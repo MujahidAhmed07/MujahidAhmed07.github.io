@@ -1,8 +1,9 @@
 "use client";
 
 import { profile } from "@/lib/data";
-import { Download, Menu, X } from "lucide-react";
+import { Download, Menu, QrCode, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { downloadVCard } from "@/lib/vcard";
 
 const links = [
   { label: "Home", href: "#top", id: "top" },
@@ -90,21 +91,61 @@ export default function Nav() {
             );
           })}
 
+          <button
+            type="button"
+            onClick={downloadVCard}
+            className="btn sm"
+            style={{
+              marginLeft: "4px",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+              cursor: "pointer",
+              background: "var(--accent)",
+              color: "var(--primary-hover)",
+              border: "1px solid rgba(14, 165, 233, 0.3)",
+            }}
+            title="Download contact card (.vcf) directly into phone or computer"
+          >
+            <QrCode size={14} />
+            Save Contact
+          </button>
+
           <a
             href="/Mujahid Ahmed Resume.pdf"
             download="Mujahid_Ahmed_CV.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="btn primary sm"
-            style={{ marginLeft: "8px", display: "inline-flex", alignItems: "center", gap: "6px", cursor: "pointer", border: "none", textDecoration: "none" }}
+            style={{ marginLeft: "4px", display: "inline-flex", alignItems: "center", gap: "6px", cursor: "pointer", border: "none", textDecoration: "none" }}
           >
             <Download size={14} />
             Download CV
           </a>
         </div>
 
-        {/* Mobile Controls (CV + Hamburger Toggle) */}
-        <div className="mobile-only-controls" style={{ display: "none", alignItems: "center", gap: "8px" }}>
+        {/* Mobile Controls (QR + CV + Hamburger Toggle) */}
+        <div className="mobile-only-controls" style={{ display: "none", alignItems: "center", gap: "6px" }}>
+          <button
+            type="button"
+            onClick={downloadVCard}
+            className="btn sm"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "4px",
+              padding: "6px 8px",
+              fontSize: "12px",
+              background: "var(--accent)",
+              color: "var(--primary-hover)",
+              border: "1px solid rgba(14, 165, 233, 0.3)",
+              cursor: "pointer",
+            }}
+            title="Download contact card"
+          >
+            <QrCode size={13} /> Save Contact
+          </button>
+
           <a
             href="/Mujahid Ahmed Resume.pdf"
             download="Mujahid_Ahmed_CV.pdf"
@@ -179,6 +220,35 @@ export default function Nav() {
               </a>
             );
           })}
+
+          <button
+            type="button"
+            onClick={() => {
+              setIsOpen(false);
+              downloadVCard();
+            }}
+            style={{
+              marginTop: "4px",
+              padding: "10px 16px",
+              borderRadius: "10px",
+              fontSize: "14px",
+              fontWeight: 600,
+              background: "var(--accent)",
+              color: "var(--primary-hover)",
+              border: "1px solid rgba(14, 165, 233, 0.3)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              cursor: "pointer",
+            }}
+          >
+            <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <QrCode size={16} /> Save Contact Card (.vcf)
+            </span>
+            <span style={{ fontSize: "11px", fontWeight: 700, background: "var(--primary)", color: "#ffffff", padding: "2px 8px", borderRadius: "999px" }}>
+              Save
+            </span>
+          </button>
         </div>
       )}
     </nav>

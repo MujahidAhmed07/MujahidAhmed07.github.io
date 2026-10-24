@@ -2,6 +2,9 @@
 
 import Nav from "@/components/Nav";
 import SectionTitle from "@/components/SectionTitle";
+import HeroContactCard from "@/components/HeroContactCard";
+import ContactQrCard from "@/components/ContactQrCard";
+import { downloadVCard } from "@/lib/vcard";
 import { allProjects, portfolioCategories, CategoryKey, experiences, profile, skills, educations, languages, interests, caseStudies } from "@/lib/data";
 import { useHashNav } from "@/lib/hooks";
 import { useState } from "react";
@@ -27,7 +30,8 @@ import {
   Layers,
   ChevronDown,
   ChevronUp,
-  FileText
+  FileText,
+  QrCode
 } from "lucide-react";
 
 // Standard SVG definitions for GitHub and LinkedIn matching Feather/Lucide aesthetic
@@ -90,25 +94,39 @@ export default function Page() {
             <div className="hero-grid">
               {/* Left Bio Column */}
               <div>
-                <div className="hero-bio-header">
+                {/* Heading on top */}
+                <div style={{ marginBottom: "22px" }}>
+                  <h1 style={{ fontWeight: 800, margin: 0, letterSpacing: "-0.025em", fontSize: "clamp(30px, 4vw, 46px)" }}>
+                    {profile.name}
+                  </h1>
+                  <span style={{ fontSize: "19px", fontWeight: 700, color: "var(--primary)", marginTop: "6px", display: "inline-block" }}>
+                    {profile.headline}
+                  </span>
+                </div>
+
+                {/* Avatar + Bio Summary */}
+                <div style={{ display: "flex", alignItems: "center", gap: "22px", marginBottom: "24px", flexWrap: "wrap" }}>
                   <img
                     src="/hero-profile-v2.jpg"
                     alt={profile.name}
                     className="hero-avatar"
+                    style={{
+                      width: "130px",
+                      height: "130px",
+                      maxWidth: "130px",
+                      maxHeight: "130px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      border: "4px solid var(--primary)",
+                      boxShadow: "0 10px 24px rgba(14, 165, 233, 0.25)",
+                      flexShrink: 0,
+                      display: "block",
+                    }}
                   />
-                  <div>
-                    <h1 style={{ fontWeight: 800, margin: 0, letterSpacing: "-0.02em" }}>
-                      {profile.name}
-                    </h1>
-                    <span style={{ fontSize: "18px", fontWeight: 600, color: "var(--primary)", marginTop: "6px", display: "inline-block" }}>
-                      {profile.headline}
-                    </span>
-                  </div>
+                  <p style={{ fontSize: "15px", lineHeight: "1.65", color: "var(--muted)", margin: 0, flex: 1, minWidth: "220px" }}>
+                    {profile.subhead}
+                  </p>
                 </div>
-
-                <p style={{ fontSize: "15px", lineHeight: "1.6", color: "var(--muted)", margin: "0 0 24px" }}>
-                  {profile.subhead}
-                </p>
 
                 <div className="cta">
                   <a
@@ -121,6 +139,15 @@ export default function Page() {
                   >
                     <Download size={18} /> Download CV
                   </a>
+                  <button
+                    type="button"
+                    onClick={downloadVCard}
+                    className="btn"
+                    style={{ display: "inline-flex", alignItems: "center", gap: "8px", cursor: "pointer" }}
+                    title="Save contact card directly to phone or computer"
+                  >
+                    <QrCode size={18} color="var(--primary)" /> Save Contact (.vcf)
+                  </button>
                   <a
                     className="btn"
                     href="#contact"
@@ -140,75 +167,8 @@ export default function Page() {
                 </div>
               </div>
 
-              {/* Right Details Column (Digital Card Dashboard) */}
-              <div style={{ background: "var(--bg)", padding: "22px", borderRadius: "18px", border: "1px solid var(--stroke)" }}>
-                <h3 style={{ fontSize: "14px", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "18px", display: "flex", alignItems: "center", gap: "8px" }}>
-                  <Cpu size={16} color="var(--primary)" /> Profile Info
-                </h3>
-                <div style={{ display: "flex", flexDirection: "column", gap: "16px", fontSize: "14px" }}>
-                  
-                  {/* Location Info */}
-                  <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "36px", height: "36px", borderRadius: "10px", background: "var(--accent)", color: "var(--primary-hover)", flexShrink: 0 }}>
-                      <MapPin size={18} />
-                    </div>
-                    <div>
-                      <span style={{ color: "var(--muted)", fontSize: "12px" }}>Location:</span>
-                      <div style={{ fontWeight: 600, color: "var(--text)" }}>{profile.location}</div>
-                    </div>
-                  </div>
-
-                  {/* Email Info */}
-                  <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "36px", height: "36px", borderRadius: "10px", background: "var(--accent)", color: "var(--primary-hover)", flexShrink: 0 }}>
-                      <Mail size={18} />
-                    </div>
-                    <div style={{ minWidth: 0, overflow: "hidden" }}>
-                      <span style={{ color: "var(--muted)", fontSize: "12px" }}>Email:</span>
-                      <div>
-                        <a href={`mailto:${profile.email}`} style={{ fontWeight: 600, color: "var(--primary)", wordBreak: "break-all" }}>
-                          {profile.email}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Phone Info */}
-                  <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "36px", height: "36px", borderRadius: "10px", background: "var(--accent)", color: "var(--primary-hover)", flexShrink: 0 }}>
-                      <Phone size={18} />
-                    </div>
-                    <div>
-                      <span style={{ color: "var(--muted)", fontSize: "12px" }}>Phone:</span>
-                      <div>
-                        <a href={profile.phoneHref} style={{ fontWeight: 600, color: "var(--text)" }}>
-                          {profile.phone}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Social Links Info */}
-                  <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "36px", height: "36px", borderRadius: "10px", background: "var(--accent)", color: "var(--primary-hover)", flexShrink: 0 }}>
-                      <ExternalLink size={18} />
-                    </div>
-                    <div>
-                      <span style={{ color: "var(--muted)", fontSize: "12px" }}>Professional Links:</span>
-                      <div style={{ display: "flex", gap: "10px", marginTop: "4px", flexWrap: "wrap" }}>
-                        <a href={linkedinLink} target="_blank" rel="noreferrer" style={{ fontWeight: 600, color: "var(--primary)", display: "inline-flex", alignItems: "center", gap: "3px" }}>
-                          LinkedIn <ExternalLink size={11} />
-                        </a>
-                        <span style={{ color: "var(--stroke)" }}>|</span>
-                        <a href={mediumLink} target="_blank" rel="noreferrer" style={{ fontWeight: 600, color: "var(--primary)", display: "inline-flex", alignItems: "center", gap: "3px" }}>
-                          Medium <ExternalLink size={11} />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
+              {/* Right Details Column: Prominent Digital QR Contact Card Showcase */}
+              <HeroContactCard />
             </div>
           </div>
         </div>
@@ -619,19 +579,59 @@ export default function Page() {
         <div className="container">
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "18px" }}>
             <Mail size={24} color="var(--primary)" />
-            <h2 style={{ margin: 0, fontSize: "24px", fontWeight: 800 }}>Get In Touch</h2>
+            <h2 style={{ margin: 0, fontSize: "24px", fontWeight: 800 }}>Get In Touch & Save Contact</h2>
           </div>
           <p style={{ color: "var(--muted)", marginBottom: "24px", fontSize: "15px", maxWidth: "760px" }}>
-            I&apos;m open to discussing full-stack web solutions, custom WooCommerce plug-in integrations, or specialized LMS system architecture.
+            I&apos;m open to discussing full-stack web solutions, custom WooCommerce plug-in integrations, or specialized LMS system architecture. Scan the QR code with your phone camera to instantly save my contact details.
           </p>
 
-          <div className="card" style={{ padding: "30px", background: "#ffffff" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "24px", alignItems: "center" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "24px", alignItems: "stretch" }}>
+            {/* Left Box: Outreach Info & Direct Action Buttons */}
+            <div className="card" style={{ padding: "30px", background: "#ffffff", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
               <div>
                 <h3 style={{ fontSize: "20px", marginBottom: "8px", fontWeight: 700, color: "var(--text)" }}>Let&apos;s work together!</h3>
-                <p style={{ margin: 0, color: "var(--muted)" }}>Reach out directly through email, phone, or connect with me via professional networks.</p>
+                <p style={{ margin: "0 0 20px", color: "var(--muted)", fontSize: "14px" }}>
+                  Reach out directly through email, phone, or connect with me via professional networks.
+                </p>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "14px", marginBottom: "24px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: "var(--accent)", color: "var(--primary-hover)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <Mail size={18} />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: "12px", color: "var(--muted)" }}>Email:</span>
+                      <div>
+                        <a href={`mailto:${profile.email}`} style={{ fontWeight: 600, color: "var(--primary)" }}>{profile.email}</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: "var(--accent)", color: "var(--primary-hover)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <Phone size={18} />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: "12px", color: "var(--muted)" }}>Phone / WhatsApp:</span>
+                      <div>
+                        <a href={profile.phoneHref} style={{ fontWeight: 600, color: "var(--text)" }}>{profile.phone}</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: "var(--accent)", color: "var(--primary-hover)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <MapPin size={18} />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: "12px", color: "var(--muted)" }}>Location:</span>
+                      <div style={{ fontWeight: 600, color: "var(--text)" }}>{profile.location}</div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+
+              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", paddingTop: "18px", borderTop: "1px solid var(--stroke)" }}>
                 <a className="btn primary" href={`mailto:${profile.email}`} style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
                   <Mail size={16} /> Email Me
                 </a>
@@ -652,6 +652,11 @@ export default function Page() {
                   <Download size={16} /> Download CV
                 </a>
               </div>
+            </div>
+
+            {/* Right Box: Live Interactive QR Code */}
+            <div>
+              <ContactQrCard />
             </div>
           </div>
         </div>
